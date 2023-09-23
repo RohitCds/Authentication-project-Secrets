@@ -1,0 +1,43 @@
+Lines (2-6) - we import all the required packages.
+
+
+app.use(express.static("public")); - When a client (e.g., a web browser) makes a request for a resource (e.g., an HTML file, CSS file, image) from the server
+app.set('view engine', 'ejs'); - This line sets the view engine for the Express application to EJS (Embedded JavaScript). EJS is a template engine that allows you to embed JavaScript code directly into your HTML templates.
+app.use(bodyParser.urlencoded( { extended: true })); - When a client sends data in a URL-encoded format (commonly used for form submissions), this middleware parses the data and makes it available in the req.body object of the Express request object. 
+
+
+
+We then create a database called "userDB" using mongoose.
+Before testing if its working we need to open command propmt and type "mongosh".
+After this we create a new schema and build a constant using this schema (in this case "User"). 
+
+In "register.ejs" file we have a form that makes a "POST" request to "/register". 
+Hence we create an app.post method in "app.js" file with route set to "/register".
+In this method we are creating a new user using the "User" constant.
+After creating the user we use ".save()" method to save the new user in our database ("userDB").
+Notice that the "secrets" page is only loaded once the registration is complete.
+
+To check out our database, do the following in cmd prompt -
+1. mongosh
+2. show dbs
+3. use userDB
+4. show collections
+5. db.users.find()
+
+
+In "login.ejs" file we have a form that makes a "POST" request to "/login".
+Hence we create an app.post method in "app.js" file with route set to "/login".
+In this method we create 2 new constants calles "username" and "password" that take the values that user enters in the login form.
+We then use the "findOne" function to see if we have a user with that particular email.
+If we do have a user with that email, we then check if the password entered is correct.
+If the password is correct then we load the "secrets" page.
+
+Now we want to add encryption to the "password" part of our userSchema object.
+We need to install "mongoose-encryption" package for it.
+The code to encrypt a partiular field is present in "app.js".
+The fields that need to be encrypted can be added to "encryptedFields".
+
+In the code to add encryption, we added a line that read "const secrets = "Thisismylittlesecret." ". 
+We cannot add that to the repository as anyone with access to the repository can see it.
+We create a file called ".env" and save the variable there.
+We use ".gitignore" to ignore the file while adding it to the repository.
